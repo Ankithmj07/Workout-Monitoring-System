@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    body{
+      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToQef-yHDHUnI_J0E4vVO2Vxq3gbtK1zSikbyPfLeqFw&usqp=CAU&ec=48665698');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .row{
+      background-color: rgba(0, 0, 0, 0.80);
+      color: white;
+      padding: 25px;
+      height: 80vh;
+    }
+    .container{
+      margin-top: 50px;
+    }
+    #content{
+      border: 1px solid #ddd;
+      height: 72vh;
+      padding: 25px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">FITNESS MONITORING</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/home">Home</a></li>
+        {% if res %}
+        <li><a href="/graph">Graph</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+
+<div class="container">
+  <div class="row"> 
+      <div class="col-lg-3" id="content">
+        <form action="/calculate" method="post">
+          <br>
+          <center><h3>BODY MASS INDEX</h3></center>
+          <hr>
+          <br>
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+          </div>
+          <div class="form-group">
+            <label for="weight">Weight:</label>
+            <input type="number" class="form-control" id="weight" name="weight" placeholder="Enter weight in kg">
+          </div>
+          <div class="form-group">
+            <label for="height">Height:</label>
+            <input type="number" class="form-control" id="height" name="height" placeholder="Enter height in cm">
+          </div>
+          <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
+      <div class="col-lg-9" id="content">
+        {% if sug %}
+              <h1>Hi, {{name}}</h1>
+              <h2>Your body mass index is {{ bmi }}</h2>
+              <h3> Suggested exercise is {{sug}}</h3>
+              <br>
+              {% set vid = sug %}
+              <a href="{{ url_for('video', vid=vid) }}" class="btn btn-success">Video</a>
+              &nbsp;&nbsp;&nbsp;
+              <a href="{{ url_for('live', vid=vid) }}" class="btn btn-success">Live</a>
+              <h3> Suggested exercise is {{sug1}}</h3>
+              <br>
+              {% set vid = sug1 %}
+              <a href="{{ url_for('video', vid=vid) }}" class="btn btn-success">Video</a>
+              &nbsp;&nbsp;&nbsp;
+              <a href="{{ url_for('live', vid=vid) }}" class="btn btn-success">Live</a>
+        {% elif res %}
+              <img src="/video_feed" style="width: 100%;height: 65vh;">
+        {% elif graph %}
+              <img src="{{graph}}" style="width: 100%;height: 65vh;">
+        {% else %}
+              <img src="https://cdn.dribbble.com/users/1639825/screenshots/13945180/media/56eb29464f3ad94788c0f61a71becbaf.gif  " style="width: 100%;height: 65vh;">
+        {% endif %}
+      </div>
+  </div>
+</div>
+
+  </body>
+</html>
